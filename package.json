@@ -1,0 +1,19 @@
+{
+  "name": "classifiedscrape",
+  "version": "1.0.0",
+  "description": "created for scraping classified website",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "scraper"
+  ],
+  "author": "metz",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "nexmo": "^2.0.2",
+    "request": "^2.81.0"
+  }
+}
