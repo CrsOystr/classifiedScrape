@@ -16,8 +16,8 @@ if(process.env.API_KEY) {
  */
 var URL = config.url;
 var baseURL = "http://www.ksl.com";
-var minutes = 1;
-var httpInterval = minutes * 60 * 1000;
+var isFirstPass = 1;
+var httpInterval = config.minutes * 60 * 1000;
 var listingList = [];
 
 var nex = new Nexmo({
@@ -30,7 +30,6 @@ var nex = new Nexmo({
 
 function enter() {
     console.log("lol");
-    nex.message.sendSms(config.fromNumber, config.toNumber, 'yo it working');
     request(URL, function (error, response, body) {
       if (!error) {
         let $ = cheerio.load(body);
@@ -43,9 +42,15 @@ function enter() {
             console.log("URL: " + baseURL + topURL)
             if(listingList.indexOf(topURL) == -1){
                 listingList.push(topURL);
+                if(isFirstPass != 1){
+                    nex.message.sendSms(config.fromNumber, config.toNumber, 'Yo check it out ' + baseURL + topURL + ' Cool Huh.                   \n\n');
+                }
             }
         });
         writeToDisk();
+        if(isFirstPass == 1){
+            isFirstPass == 0;
+        }
       } else {
         console.log("We’ve encountered an error: " + error);
       }
