@@ -5,7 +5,7 @@ var Nexmo = require('nexmo');
 var fs = require("fs");
 var dater = new Date();
 
-if(process.env.AUTH_KEY) {
+if(process.env.API_KEY) {
     var config = require('./config');
 }else{
     var config = require('./localconfig');
