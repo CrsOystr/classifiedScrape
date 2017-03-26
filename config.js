@@ -5,5 +5,6 @@ config.apiSecret = process.env.API_SECRET;
 config.url = process.env.SEARCH_URL;
 config.fromNumber = process.env.FROM_NUMBER;
 config.toNumber = process.env.TO_NUMBER;
+config.minutes = process.env.MINUTES;
 
 module.exports = config;
