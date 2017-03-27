@@ -29,7 +29,8 @@ var nex = new Nexmo({
 
 
 function enter() {
-    console.log("lol");
+    console.log("Entering Main Function");
+
     request(URL, function (error, response, body) {
       if (!error) {
         let $ = cheerio.load(body);
@@ -37,19 +38,22 @@ function enter() {
             var title = $(this).find('h2.title').text().trim();
             var price = $(this).find('h3.price').text().trim();
             var topURL = $(this).find('a').attr('href');
-            console.log("\nTitle: " + title);
-            console.log("Price: " + price);
-            console.log("URL: " + baseURL + topURL)
+            //console.log("\nTitle: " + title);
+            //console.log("Price: " + price);
+            //console.log("URL: " + baseURL + topURL)
             if(listingList.indexOf(topURL) == -1){
                 listingList.push(topURL);
-                if(isFirstPass != 1){
+                if(isFirstPass == 0){
+                    console.log("SendSMS");
                     nex.message.sendSms(config.fromNumber, config.toNumber, 'Yo check it out ' + baseURL + topURL + ' Cool Huh.                   \n\n');
                 }
             }
         });
-        writeToDisk();
+        //writeToDisk();
+
         if(isFirstPass == 1){
-            isFirstPass == 0;
+            isFirstPass = 0;
+            console.log("First Pass");
         }
       } else {
         console.log("We’ve encountered an error: " + error);
