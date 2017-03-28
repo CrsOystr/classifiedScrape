@@ -50,7 +50,10 @@ function enter() {
             }
         });
         //writeToDisk();
-
+        if(isFirstPass == 0){
+            console.log("SendSMS");
+            nex.message.sendSms(config.fromNumber, config.toNumber, 'Yo check it out Cool Huh.                   \n-\n');
+        }
         if(isFirstPass == 1){
             isFirstPass = 0;
             console.log("First Pass");
