@@ -67,7 +67,7 @@ function sendText(body) {
     let mailOptions = {
         from: config.email,
         to: config.gateway,
-        subject: 'None',
+        subject: '',
         text: body
       };
     transporter.sendMail(mailOptions, function(error, info){
