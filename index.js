@@ -1,7 +1,7 @@
 //imports
 var request = require('request');
 var cheerio = require('cheerio');
-var Nexmo = require('nexmo');
+var nodemailer = require('nodemailer');
 var fs = require("fs");
 var dater = new Date();
 
@@ -14,20 +14,20 @@ if(process.env.API_KEY) {
 /* variables
  *
  */
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config.email,
+      pass: config.emailpassword
+    }
+  });
 var URL = config.url;
 var baseURL = "http://www.ksl.com";
 var isFirstPass = 1;
 var httpInterval = config.minutes * 60 * 1000;
 var listingList = [];
 
-var nex = new Nexmo({
-    apiKey: config.apiKey,
-    apiSecret: config.apiSecret
-});
-
 //ENTER HERE IF YOU DARE
-
-
 function enter() {
     console.log("Entering Main Function");
 
@@ -38,18 +38,17 @@ function enter() {
             var title = $(this).find('h2.title').text().trim();
             var price = $(this).find('h3.price').text().trim();
             var topURL = $(this).find('a').attr('href');
-            //console.log("\nTitle: " + title);
-            //console.log("Price: " + price);
-            //console.log("URL: " + baseURL + topURL)
+
             if(listingList.indexOf(topURL) == -1){
                 listingList.push(topURL);
+                console.log(topURL);
                 if(isFirstPass == 0){
-                    console.log("SendSMS");
-                    nex.message.sendSms(config.fromNumber, config.toNumber, 'Yo check it out ' + baseURL + topURL + ' Cool Huh.                   \n\n');
+                    let mess = ('Yo check it out ' + baseURL + topURL + ' Cool Huh.                   \n\n');
+                    sendText(mess);
                 }
             }
         });
-        //writeToDisk();
+
         if(isFirstPass == 1){
             isFirstPass = 0;
             console.log("First Pass");
@@ -63,6 +62,22 @@ function enter() {
     setTimeout(enter, httpInterval);
 }
 
+
+function sendText(body) {
+    let mailOptions = {
+        from: config.email,
+        to: config.gateway,
+        subject: 'None',
+        text: body
+      };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+}
 
 function writeToDisk() {
     let listingData;
@@ -78,7 +93,5 @@ function writeToDisk() {
     });
 }
 
-
-
-
+sendText('starting service');
 enter();
