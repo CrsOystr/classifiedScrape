@@ -5,7 +5,7 @@ var nodemailer = require('nodemailer');
 var fs = require("fs");
 var dater = new Date();
 
-if(process.env.API_KEY) {
+if(process.env.SEARCH_URL) {
     var config = require('./config');
 }else{
     var config = require('./localconfig');
