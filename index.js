@@ -29,7 +29,7 @@ var listingList = [];
 
 //ENTER HERE IF YOU DARE
 function enter() {
-    console.log("Entering Main Function");
+    console.log("Entering Main Function  with " + config.email + ' ' + config.gateway);
 
     request(URL, function (error, response, body) {
       if (!error) {
