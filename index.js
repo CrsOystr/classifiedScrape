@@ -62,7 +62,6 @@ function enter() {
     setTimeout(enter, httpInterval);
 }
 
-
 function sendText(body) {
     let mailOptions = {
         from: config.email,
